@@ -64,11 +64,20 @@ def main():
     with col1:
         st.subheader("Win Rate Trends")
         fig_trends = px.line(
-            filtered_df,
+            filtered_df.sort_values(by=['Season']),  # Ensure data is sorted by Season
             x='Season',
             y='WR',
             color='Team',
-            title="Historical Win Rate by Team"
+            title="Historical Win Rate by Team",
+            markers=True  # Add markers for better visualization
+        )
+        fig_trends.update_traces(line_shape='linear')  # Use linear interpolation for smoother lines
+        fig_trends.update_layout(
+            xaxis_title="Season",
+            yaxis_title="Win Rate",
+            xaxis=dict(tickmode='linear'),  # Ensure x-axis ticks are linear
+            yaxis=dict(range=[0, 1]),  # Set y-axis range to valid win rate values
+            legend_title="Teams"
         )
         st.plotly_chart(fig_trends, use_container_width=True)
     
