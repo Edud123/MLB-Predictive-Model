@@ -3,3 +3,7 @@
 __pycache__/
 .ipynb_checkpoints/
 *.pyc
+
+# Ignore virtual environment directory
+# Removed venv entry as the devcontainer replaces the need for it
+# venv/

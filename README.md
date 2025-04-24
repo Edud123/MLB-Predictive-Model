@@ -26,6 +26,42 @@ To run the MLB Predictive Model dashboard, follow these steps:
 4. **Optional**:
    - If you want to update the data or retrain the models, ensure the CSV files in the workspace are up-to-date and re-run the `train_models.py` script.
 
+### Debugging Steps for `ValueError` in `px.bar`
+
+If you encounter the error `ValueError: Cannot accept list of column references or list of columns for both x and y` while running the dashboard, follow these steps to debug and resolve the issue:
+
+1. **Inspect `category_impact`**:
+   - Add a debug statement in the `mlb_dashboard.py` file to check the contents of `category_impact` before passing it to `px.bar`:
+     ```python
+     st.write("Category Impact Debug:", category_impact)
+     ```
+
+2. **Check for Empty Data**:
+   - Ensure that `category_impact` is not empty. If it is, the issue likely lies in the logic that calculates it. Review the code that populates `category_impact` to ensure it is correctly aggregating data.
+
+3. **Validate Data Types**:
+   - Ensure that `list(category_impact.keys())` and `list(category_impact.values())` are valid lists of strings and numbers, respectively. If not, inspect the data source (`filtered_df`) and the correlation calculation logic.
+
+4. **Handle Empty Data Gracefully**:
+   - Add a fallback in the `mlb_dashboard.py` file to handle cases where `category_impact` is empty:
+     ```python
+     if not category_impact:
+         st.warning("No data available for category impact analysis.")
+         return
+     ```
+
+5. **Test with Sample Data**:
+   - If the issue persists, test the `px.bar` function with sample data to isolate the problem. For example:
+     ```python
+     fig_impact = px.bar(
+         x=["Category A", "Category B"],
+         y=[0.5, 0.7],
+         title="Sample Data Test"
+     )
+     ```
+
+By following these steps, you should be able to identify and resolve the root cause of the error.
+
 ---
 
 # MLB-Predictive-Model

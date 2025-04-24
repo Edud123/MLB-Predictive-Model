@@ -7,6 +7,7 @@ import numpy as np
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 import pickle
+import json  # Add this import at the top if not already present
 
 # Page config
 st.set_page_config(page_title="MLB Win Rate Predictor Dashboard", layout="wide")
@@ -14,15 +15,15 @@ st.set_page_config(page_title="MLB Win Rate Predictor Dashboard", layout="wide")
 # Load the preprocessed data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("merged.csv")
+    df = pd.read_csv("data/merged.csv")
     return df
 
 # Load the trained models
 @st.cache_resource
 def load_models():
-    with open('xgb_model.pkl', 'rb') as f:
+    with open('models/xgb_model.pkl', 'rb') as f:
         xgb_model = pickle.load(f)
-    with open('rf_model.pkl', 'rb') as f:
+    with open('models/rf_model.pkl', 'rb') as f:
         rf_model = pickle.load(f)
     return xgb_model, rf_model
 
@@ -105,6 +106,12 @@ def main():
             if category_corrs:
                 category_impact[category] = np.mean(category_corrs)
         
+        # Handle empty category_impact gracefully
+        if not category_impact:
+            st.warning("No data available for category impact analysis.")
+            return
+
+        # Generate the bar chart for category impact
         fig_impact = px.bar(
             x=list(category_impact.keys()),
             y=list(category_impact.values()),

@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import pickle
 
 # Load the data
-df = pd.read_csv("merged.csv")
+df = pd.read_csv("data/merged.csv")
 
 # Prepare features
 feature_cols = [col for col in df.columns if 'lag' in col]
@@ -31,10 +31,10 @@ rf_model = RandomForestRegressor(random_state=42)
 rf_model.fit(X_train, y_train)
 
 # Save models
-with open('xgb_model.pkl', 'wb') as f:
+with open('models/xgb_model.pkl', 'wb') as f:
     pickle.dump(xgb_model, f)
 
-with open('rf_model.pkl', 'wb') as f:
+with open('models/rf_model.pkl', 'wb') as f:
     pickle.dump(rf_model, f)
 
 print("Models trained and saved successfully!")
