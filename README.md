@@ -1,3 +1,33 @@
+## How to Run the App
+
+To run the MLB Predictive Model dashboard, follow these steps:
+
+1. **Install Dependencies**:
+   - Ensure you have Python installed (version 3.8 or higher).
+   - Install the required Python packages by running:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+2. **Train the Models**:
+   - Before running the dashboard, ensure the models are trained and saved. Use the `train_models.py` script to train the Random Forest, XGBoost, and Neural Network models:
+     ```bash
+     python train_models.py
+     ```
+   - This will generate the necessary model files (`rf_model.pkl`, `xgb_model.pkl`, etc.) in the workspace.
+
+3. **Run the Dashboard**:
+   - Start the Streamlit dashboard by running the following command:
+     ```bash
+     streamlit run mlb_dashboard.py
+     ```
+   - Open the provided URL in your web browser to interact with the dashboard.
+
+4. **Optional**:
+   - If you want to update the data or retrain the models, ensure the CSV files in the workspace are up-to-date and re-run the `train_models.py` script.
+
+---
+
 # MLB-Predictive-Model
 Final Project for Data Analytics Class at CBS
 
